@@ -43,8 +43,6 @@ public class UpdateServlet extends HttpServlet {
             Message m = em.find(Message.class, (Integer)(request.getSession().getAttribute("message_id")));
 
             // フォームの内容を各フィールドに上書き
-            String title = request.getParameter("title");
-            m.setTitle(title);
 
             String content = request.getParameter("content");
             m.setContent(content);
@@ -58,7 +56,6 @@ public class UpdateServlet extends HttpServlet {
                 em.close();
 
                 // フォームに初期値を設定、さらにエラーメッセージを送る
-                request.setAttribute("_token", request.getSession().getId());
                 request.setAttribute("message", m);
                 request.setAttribute("errors", errors);
 
@@ -78,17 +75,6 @@ public class UpdateServlet extends HttpServlet {
                 response.sendRedirect(request.getContextPath() + "/index");
             }
 
-            // データベースを更新
-            em.getTransaction().begin();
-            em.getTransaction().commit();
-            request.getSession().setAttribute("flush", "更新が完了しました。");
-            em.close();
-
-            // セッションスコープ上の不要になったデータを削除
-            request.getSession().removeAttribute("message_id");
-
-            // indexページへリダイレクト
-            response.sendRedirect(request.getContextPath() + "/index");
         }
     }
 
