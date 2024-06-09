@@ -19,12 +19,12 @@ import javax.persistence.Table;
     )
 })
 @Table(name = "tasklist")
+
 public class Message {
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-
 
 
     @Column(name = "content", length = 255, nullable = false)
